@@ -4,7 +4,21 @@ This is an implementation for the capstone project of Udacity's Data Science Nan
 
 It also builds a web app capable of displaying insights about the dataset. The web app allows users to input "tweets" of their own and visualize predicted disaster categories for the text they provided.
 
-### Instructions:
+## Instructions:
+
+### With docker
+In order to get the final webapp to run as expected, we would need to setup conda and also call the processing and training scripts with matching path arguments for csv's, models and sql files. To make bootstrapping the app easy, a Dockerfile has been added so that all script calls and arguments are handled behind the scenes. The image also contains a conda installation so we dont need to setup conda on the local machine either. To run the app with docker:
+
+1. Make sure you have (docker setup on your environment)[https://docs.docker.com/get-docker/]
+2. Build the image by running `docker build -t dsnd_project02 .` at the root of the project
+3. Start a new container from the image with `docker run -p 3001:3001 --name DSND_pjct02_api dsnd_project02`
+4. navigate on your local browser to `http://localhost:3001`
+
+**Disclaimer**: the webapp on the final container loads pickled ML models which are pretty big. I plan on optimizing the size of the model used on this app in the future but in the meantime, the container may require additional RAM to work properly (my experience, 10 GB worked fine).
+
+### Without docker
+This project assumes you are using (conda)[https://docs.conda.io/en/latest/] as your python managing library. Before you begin make sure you have conda setup and your conda environment contains all dependencies specified in `env.yml`. You can also create a new conda environment with all required dependencies by running `conda env create -f env.yml`.
+
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
@@ -17,7 +31,7 @@ It also builds a web app capable of displaying insights about the dataset. The w
 
 3. Go to http://0.0.0.0:3001/
 
-### file structure
+## file structure
 - app
     - templates
         - go.html: template for custom text predictions page
@@ -26,11 +40,6 @@ It also builds a web app capable of displaying insights about the dataset. The w
 - data
     - disaster_categories.csv: dataset with disaster categories for each tweet
     - disaster_categories.csv: dataset with input tweet messages
-    - DisasterResponse.db: sqlite database with merged and cleaned master dataset (stored in `tweets` table)
-- jupyter_notebooks
-    - ETL Pipeline Preparation.ipynb: jupyter notebook used to draft ETL script
-    - ML Pipeline Preparation.ipynb: jupyter notebook used to draft ML script
-- models: folder containing various output ML models from the ML pipeline
 - process_data.py: script for creating sqlite databse file used in the ML pipeline
 - train_classifier.py: script for training best ML model from ML notebook on sqlite dataset and output a new model
 
@@ -52,3 +61,11 @@ Remaining files are either configuration or documentation
 - https://www.programiz.com/python-programming/datetime/current-time
 - https://www.geeksforgeeks.org/python-how-to-get-function-name/#:~:text=Method%201%3A%20Get%20Function%20Name,also%20for%20documentation%20at%20times.
 - https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+- https://pythonspeed.com/articles/activate-conda-dockerfile/
+- https://docs.docker.com/
+- https://hub.docker.com/r/continuumio/miniconda3
+- https://gist.github.com/mohanpedala/1e2ff5661761d3abd0385e8223e16425
+- https://stackoverflow.com/questions/38882654/docker-entrypoint-running-bash-script-gets-permission-denied
+- https://stackoverflow.com/questions/42494853/standard-init-linux-go178-exec-user-process-caused-exec-format-error
+- https://stackoverflow.com/questions/66785929/docker-container-exited-with-code-247-when-getting-data-from-gcp
+- https://forums.docker.com/t/dockerfile-getting-failed-to-compute-cache-key-in-the-build/125911/14
