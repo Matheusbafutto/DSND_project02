@@ -2,6 +2,7 @@ import json
 import plotly
 import pandas as pd
 
+from nltk import download
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 
@@ -11,6 +12,9 @@ from plotly.graph_objs import Bar
 import joblib
 from sqlalchemy import create_engine
 app = Flask(__name__)
+
+download("punkt")
+download("wordnet")
 
 """
     tokenization function to be used in the vectorization of new Tweets
@@ -33,7 +37,7 @@ engine = create_engine('sqlite:///./data/DisasterResponse.db')
 df = pd.read_sql_table('Tweets', engine)
 
 # load model
-model = joblib.load('./models/vec_tfidf_RandomForest.pickle')
+model = joblib.load('./models/vec_tfidf_RandomForest.pkl')
 
 
 # index webpage displays cool visuals and receives user input text for model

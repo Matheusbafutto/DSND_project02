@@ -6,7 +6,7 @@ from time import time
 import pandas as pd
 from sqlalchemy import create_engine
 
-from nltk import word_tokenize
+from nltk import word_tokenize, download
 from nltk.stem import WordNetLemmatizer
 
 from sklearn.pipeline import Pipeline
@@ -14,6 +14,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score, precision_score, recall_score
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+
+download("punkt")
+download("wordnet")
 
 """
     load data from SQLite file and outputs features, category outputs and category labels
